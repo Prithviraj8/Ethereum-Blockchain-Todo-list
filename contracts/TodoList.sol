@@ -18,6 +18,11 @@ contract TodoList {
         bool completed
     );
 
+    event TaskCompleted(
+        uint id,
+        bool completed
+    );
+
     constructor() public {
         createTask("Check out my fabulous todolist");
     }
@@ -28,4 +33,10 @@ contract TodoList {
         emit TaskCreated(taskCount, _content, false);
     }
 
+    function toggleCompleted(uint _taskId) public {
+        Task memory _task = tasks[_taskId]; // underscore means its a local variable- just a convention in solidity. And _task is of type Task
+        _task.completed = !_task.completed;
+        tasks[_taskId] = _task;
+        emit TaskCompleted(_taskId, _task.completed);
+    }
 }
