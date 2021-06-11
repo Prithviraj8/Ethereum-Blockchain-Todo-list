@@ -1,3 +1,6 @@
+// Using mocha for solidity tests
+// Can use chaijs for javascript tests
+
 const TodoList = artifacts.require('./TodoList.sol')
 
 contract('TodoList', (accounts) => {
@@ -37,4 +40,14 @@ contract('TodoList', (accounts) => {
         
     })
 
+
+    it('Task Completion', async () => {
+        const result = await this.todoList.toggleCompleted(1)
+        const task = await this.todoList.tasks(1)
+        assert.equal(task.completed, true)
+        // Log result to checkout create task's transaction details
+        console.log('Task Completion test Result: ', result)
+        const event = result.logs[0].args
+        assert.equal(event.id.toNumber(), 1)
+    })
 })
