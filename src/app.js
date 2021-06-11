@@ -8,6 +8,7 @@ App = {
         await App.loadWeb3()
         await App.loadAccount()
         await App.loadContract()
+        await App.render()
     },
     // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
     loadWeb3: async () => {
@@ -54,7 +55,30 @@ App = {
         App.contracts.TodoList = TruffleContract(todoList)
         App.contracts.TodoList.setProvider(App.web3Provider)
         
+        App.todoList = await App.contracts.TodoList.deployed()
         console.log('In Loading Contract', todoList)
+        console.log('Contract', App.contracts)
+    },
+
+    render: async () => {
+            // Prevent double render
+        if (App.loading) {
+            return
+        }
+    
+        // Update app loading state
+        App.setLoading(true)
+    
+        // Render Account
+        $('#account').html(App.account)
+    
+        // Render Tasks
+        await App.renderTasks()
+    
+        // Update loading state
+        App.setLoading(false)
+
+        console.log('App Account', App.account)
     }
 }
 
