@@ -1,8 +1,6 @@
 // Using mocha for solidity tests
 // Can use chaijs for javascript tests
 
-
-const TestVar = 0
 const TodoList = artifacts.require('./TodoList.sol')
 
 contract('TodoList', (accounts) => {
